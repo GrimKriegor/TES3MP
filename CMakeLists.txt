@@ -390,6 +390,12 @@ if(NOT HAVE_STDINT_H)
     message(FATAL_ERROR "stdint.h was not found" )
 endif()
 
+# Start of tes3mp addition
+#
+# Don't require certain dependencies for the server
+# but keep OSG's headers (HACK)
+IF(BUILD_OPENMW OR BUILD_OPENCS)
+# End of tes3mp addition
 if(OPENMW_USE_SYSTEM_OSG)
     find_package(OpenSceneGraph 3.4.0 REQUIRED ${USED_OSG_COMPONENTS})
     if (${OPENSCENEGRAPH_VERSION} VERSION_GREATER 3.6.2 AND ${OPENSCENEGRAPH_VERSION} VERSION_LESS 3.6.5)
@@ -406,6 +412,14 @@ include_directories(BEFORE SYSTEM ${OPENSCENEGRAPH_INCLUDE_DIRS})
 if(OSG_STATIC)
     add_definitions(-DOSG_LIBRARY_STATIC)
 endif()
+# Start of tes3mp addition
+#
+# Don't require certain dependencies for the server
+# but keep OSG's headers (HACK)
+ELSE(BUILD_OPENMW OR BUILD_OPENCS)
+    include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
+ENDIF(BUILD_OPENMW OR BUILD_OPENCS)
+# End of tes3mp addition
 
 # Start of tes3mp addition
 #
